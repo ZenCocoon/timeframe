@@ -353,8 +353,8 @@ var Timeframe = Class.create({
       this.toggleClearButton(event);
     else if (event.findElement('span.clear span.active'));
     else if (el = event.findElement('td.selectable')) {
+      window.clearInterval(this.timer);
       if (el.id == this.lastDayId) {
-        window.clearInterval(this.timer);
         this.timer = window.setInterval(function() {
           if (!this.buttons.get('next').get('element').hasClassName('disabled')) {
             this.date.setMonth(this.date.getMonth() + 1);
@@ -362,15 +362,12 @@ var Timeframe = Class.create({
           }
         }.bind(this), this.scrollerDelay * 1000);
       } else if (el.id == this.firstDayId) {
-        window.clearInterval(this.timer);
         this.timer = window.setInterval(function() {
           if (!this.buttons.get('previous').get('element').hasClassName('disabled')) {
             this.date.setMonth(this.date.getMonth() - 1);
             this.populate().refreshRange();
           }
         }.bind(this), this.scrollerDelay * 1000);
-      } else {
-        window.clearInterval(this.timer);
       }
       this.extendRange(el.date);
     } else this.toggleClearButton(event);
